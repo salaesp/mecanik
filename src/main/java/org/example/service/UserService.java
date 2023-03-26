@@ -2,6 +2,7 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.exception.ErrorCode;
 import org.example.exception.UserAlreadyExistsException;
 import org.example.model.AppUser;
 import org.example.model.AppUserRole;
@@ -39,7 +40,7 @@ public class UserService implements UserDetailsService {
             log.info("Creating user with email {}", email);
         } else {
             log.info("User with email {} already exists", email);
-            throw new UserAlreadyExistsException("Cannot use username. Please choose another");
+            throw new UserAlreadyExistsException();
         }
     }
 

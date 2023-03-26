@@ -1,8 +1,8 @@
 package org.example.exception;
 
-public class UserAlreadyExistsException extends RuntimeException {
+public class UserAlreadyExistsException extends CodeException {
 
-    public UserAlreadyExistsException(String message) {
-        super(message);
+    public UserAlreadyExistsException() {
+        super(ErrorCode.CANNOT_USE_EMAIL);
     }
 }
