@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .antMatchers("/**/with-auth/**")
                 .authenticated()
                 .and()
-                .formLogin(withDefaults()).build();
+                .formLogin(withDefaults())
+                .build();
     }
 
 }
