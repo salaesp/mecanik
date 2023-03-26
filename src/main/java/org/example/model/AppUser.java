@@ -41,6 +41,7 @@ public class AppUser implements UserDetails {
     )
     private Long id;
     private String email;
+    private String cleanEmail;
     private String password;
     //    @Enumerated(EnumType.STRING)
     @Enumerated(EnumType.STRING)
@@ -63,7 +64,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return cleanEmail;
     }
 
     @Override

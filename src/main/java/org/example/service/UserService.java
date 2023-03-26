@@ -7,6 +7,7 @@ import org.example.exception.UserAlreadyExistsException;
 import org.example.model.AppUser;
 import org.example.model.AppUserRole;
 import org.example.repository.AuthAppUserRepository;
+import org.example.utils.EmailUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,15 +27,15 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<AppUser> byEmail = repository
-                .findByEmail(username);
+                .findByCleanEmail(EmailUtils.cleanEmail(email));
         return byEmail
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
     }
 
     public void createUser(String email, String password) {
-        Optional<AppUser> byEmail = repository.findByEmail(email);
+        Optional<AppUser> byEmail = repository.findByCleanEmail(EmailUtils.cleanEmail(email));
         if (byEmail.isEmpty()) {
             repository.save(buildUserForAuthentication(email, passwordEncoder.encode(password), Set.of(AppUserRole.CAR_OWNER)));
             log.info("Creating user with email {}", email);
@@ -44,9 +45,10 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    private AppUser buildUserForAuthentication(String username, String password, Set<AppUserRole> roles) {
+    private AppUser buildUserForAuthentication(String email, String password, Set<AppUserRole> roles) {
         return AppUser.builder()
-                .email(username)
+                .cleanEmail(EmailUtils.cleanEmail(email))
+                .email(email)
                 .password(password)
                 .enabled(true)
                 .locked(false)
