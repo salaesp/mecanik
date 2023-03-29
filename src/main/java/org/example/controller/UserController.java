@@ -1,26 +1,25 @@
 package org.example.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.example.controller.request.CreateUserRequest;
-import org.example.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.example.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
-    public final UserService service;
+    @Autowired
+    private CustomUserDetailsService service;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody @Validated CreateUserRequest req) {
-        service.createUser(req.getEmail(), req.getPassword());
+    @GetMapping("/info")
+    public UserDetails getUserDetails() {
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return service.loadUserByUsername(email);
     }
+
+
 }

@@ -3,10 +3,26 @@
 This README would normally document whatever steps are necessary to get your application up and running.
 
 
+## Register
+
+curl -X 'POST' \
+'http://localhost:8080/api/auth/register' \
+-H 'accept: */*' \
+-H 'Content-Type: application/json' \
+-d '{
+"email": "salaesp@gmail.com",
+"password": "1234",
+"repeatPassword": "1234",
+"name": "1234"
+}'
+
 ## LOGIN
 
-curl --location 'http://localhost:8080/login' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---header 'Cookie: SESSION=ZGY2MWJlNTYtODg0ZC00ZjQyLWEyOGEtYzdlNzZjNDg2MTg3' \
---data-urlencode 'username=salaesp@gmail.com' \
---data-urlencode 'password=1234'
+curl -X 'POST' \
+'http://localhost:8080/api/auth/login' \
+-H 'accept: */*' \
+-H 'Content-Type: application/json' \
+-d '{
+"email": "salaesp@gmail.com",
+"password": "1234"
+}'

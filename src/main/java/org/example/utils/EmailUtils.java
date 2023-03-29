@@ -52,5 +52,4 @@ public class EmailUtils {
             return noDotsName + clearEmail.substring(atIndex);
         };
     }
-
 }

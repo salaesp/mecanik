@@ -43,7 +43,6 @@ public class AppUser implements UserDetails {
     private String email;
     private String cleanEmail;
     private String password;
-    //    @Enumerated(EnumType.STRING)
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<AppUserRole> appUserRoles;
