@@ -1,4 +1,4 @@
-package org.example.controller.response;
+package org.example.exception.response;
 
 import lombok.Builder;
 import lombok.Getter;

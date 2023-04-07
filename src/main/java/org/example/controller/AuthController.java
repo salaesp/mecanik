@@ -3,7 +3,7 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.controller.request.CreateUserRequest;
 import org.example.controller.request.LoginCredentials;
-import org.example.service.LoginService;
+import org.example.security.service.LoginService;
 import org.example.service.RegisterService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

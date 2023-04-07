@@ -4,30 +4,39 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "app_users", indexes = @Index(name = "user_idx_cleanEmail", columnList = "cleanEmail"))
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUser implements UserDetails {
+public class AppUserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(
@@ -48,6 +57,12 @@ public class AppUser implements UserDetails {
     private Set<AppUserRole> appUserRoles;
     private Boolean locked;
     private Boolean enabled;
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime created;
+    @LastModifiedDate
+    @Column(nullable = false)
+    private LocalDateTime updated;
 
 
     @Override

@@ -1,13 +1,15 @@
 package org.example.controller.request;
 
 import lombok.Data;
+import org.example.conditions.HasPassword;
+import org.example.validators.PasswordValidation;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
-public class CreateUserRequest {
+@PasswordValidation
+public class CreateUserRequest implements HasPassword {
     @NotEmpty
     @Email
     private String email;

@@ -1,23 +1,18 @@
-package org.example.configuration;
+package org.example.security.config;
 
 import lombok.RequiredArgsConstructor;
-import org.example.controller.filter.JWTFilter;
+import org.example.security.filter.JWTFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -37,7 +32,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/user/**").authenticated()
+                .antMatchers("/api/users/**").authenticated()
+                .antMatchers("/api/cars/**").authenticated()
                 .and()
                 .userDetailsService(userDetailsService)
                 .exceptionHandling()

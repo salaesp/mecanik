@@ -1,12 +1,12 @@
-package org.example.controller.filter;
+package org.example.security.filter;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
-import org.example.service.CustomUserDetailsService;
+import org.example.security.token.CustomUserAuthenticationToken;
+import org.example.model.AppUserEntity;
+import org.example.security.service.CustomUserDetailsService;
 import org.example.utils.JWTUtil;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,9 +36,9 @@ public class JWTFilter extends OncePerRequestFilter {
                 try {
                     // es esto o confiamos que el usuario existe
                     String email = jwtUtil.validateTokenAndRetrieveSubject(jwt);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(email, userDetails.getPassword(), userDetails.getAuthorities());
+                    AppUserEntity userDetails = (AppUserEntity) userDetailsService.loadUserByUsername(email);
+                    CustomUserAuthenticationToken authToken =
+                            new CustomUserAuthenticationToken(email, userDetails.getPassword(), userDetails.getId(), userDetails.getAuthorities());
                     if (SecurityContextHolder.getContext().getAuthentication() == null) {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }

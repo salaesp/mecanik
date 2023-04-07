@@ -1,20 +1,15 @@
-package org.example.service;
+package org.example.security.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.model.AppUser;
-import org.example.model.AppUserRole;
+import org.example.model.AppUserEntity;
 import org.example.repository.AuthAppUserRepository;
 import org.example.utils.EmailUtils;
-import org.example.utils.JWTUtil;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j
@@ -26,7 +21,7 @@ public class CustomUserDetailsService implements org.springframework.security.co
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<AppUser> byEmail = repository
+        Optional<AppUserEntity> byEmail = repository
                 .findByCleanEmail(EmailUtils.cleanEmail(email));
         return byEmail
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));

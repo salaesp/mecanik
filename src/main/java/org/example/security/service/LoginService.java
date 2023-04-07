@@ -1,25 +1,16 @@
-package org.example.service;
+package org.example.security.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.exception.UserAlreadyExistsException;
-import org.example.model.AppUser;
-import org.example.model.AppUserRole;
 import org.example.repository.AuthAppUserRepository;
-import org.example.utils.EmailUtils;
 import org.example.utils.JWTUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j

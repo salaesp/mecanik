@@ -3,16 +3,11 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.UserAlreadyExistsException;
-import org.example.model.AppUser;
+import org.example.model.AppUserEntity;
 import org.example.model.AppUserRole;
 import org.example.repository.AuthAppUserRepository;
 import org.example.utils.EmailUtils;
 import org.example.utils.JWTUtil;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +27,10 @@ public class RegisterService {
 
 
     public Map<String, String> createUser(String email, String password) {
-        Optional<AppUser> byEmail = repository.findByCleanEmail(EmailUtils.cleanEmail(email));
+        Optional<AppUserEntity> byEmail = repository.findByCleanEmail(EmailUtils.cleanEmail(email));
         if (byEmail.isEmpty()) {
             String encodedPassword = passwordEncoder.encode(password);
-            AppUser user = repository.save(buildUserForAuthentication(email, encodedPassword, Set.of(AppUserRole.CAR_OWNER)));
+            AppUserEntity user = repository.save(buildUserForAuthentication(email, encodedPassword, Set.of(AppUserRole.CAR_OWNER)));
             log.info("Creating user with email {}", email);
             return Collections.singletonMap("jwt-token", jwtUtil.generateToken(user.getEmail()));
         } else {
@@ -44,8 +39,8 @@ public class RegisterService {
         }
     }
 
-    private AppUser buildUserForAuthentication(String email, String password, Set<AppUserRole> roles) {
-        return AppUser.builder()
+    private AppUserEntity buildUserForAuthentication(String email, String password, Set<AppUserRole> roles) {
+        return AppUserEntity.builder()
                 .cleanEmail(EmailUtils.cleanEmail(email))
                 .email(email)
                 .password(password)
