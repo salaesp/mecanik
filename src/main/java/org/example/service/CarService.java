@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.CarDto;
 import org.example.exception.ResourceNotFoundException;
 import org.example.mapper.CarMapper;
-import org.example.model.CarEntity;
+import org.example.entity.CarEntity;
 import org.example.repository.CarRepository;
 import org.example.utils.ContextUtils;
 import org.springframework.stereotype.Service;
@@ -27,10 +27,14 @@ public class CarService {
         return mapper.toDto(save);
     }
 
+
+    public CarDto getCarById(Long id) {
+        return this.getCarById(id, false);
+    }
+
     public CarDto getCarById(Long id, boolean includeDeleted) {
         return mapper.toDto(internalGet(id, includeDeleted));
     }
-
 
     public List<CarDto> listCars(boolean includeDeleted) {
         List<CarEntity> byUserId = includeDeleted ?

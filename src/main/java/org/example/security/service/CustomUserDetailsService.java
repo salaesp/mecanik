@@ -2,7 +2,7 @@ package org.example.security.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.model.AppUserEntity;
+import org.example.entity.AppUserEntity;
 import org.example.repository.AuthAppUserRepository;
 import org.example.utils.EmailUtils;
 import org.springframework.security.core.userdetails.UserDetails;

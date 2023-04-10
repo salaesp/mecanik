@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.entity;
 
 import lombok.Data;
 import org.example.conditions.HasDeleted;
@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.time.Year;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)

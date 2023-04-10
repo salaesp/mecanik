@@ -3,7 +3,7 @@ package org.example.security.filter;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
 import org.example.security.token.CustomUserAuthenticationToken;
-import org.example.model.AppUserEntity;
+import org.example.entity.AppUserEntity;
 import org.example.security.service.CustomUserDetailsService;
 import org.example.utils.JWTUtil;
 import org.springframework.security.core.context.SecurityContextHolder;

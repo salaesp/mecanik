@@ -36,6 +36,7 @@ public class CarDto implements HasDeleted {
     private String plate;
     @NotEmpty
     private String chassisNumber;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean deleted;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime created;

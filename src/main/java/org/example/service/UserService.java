@@ -5,12 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.dto.UserDto;
 import org.example.exception.UnexpectedException;
 import org.example.mapper.UserMapper;
-import org.example.model.AppUserEntity;
+import org.example.entity.AppUserEntity;
 import org.example.repository.AuthAppUserRepository;
 import org.example.utils.ContextUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

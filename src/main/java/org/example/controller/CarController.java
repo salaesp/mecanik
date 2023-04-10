@@ -32,7 +32,8 @@ public class CarController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a car by car id")
-    public CarDto getCarById(@PathVariable long id, @RequestParam("include_deleted") boolean includeDeleted) {
+    public CarDto getCarById(@PathVariable long id, @RequestParam(value = "include_deleted",
+            required = false, defaultValue = "false") boolean includeDeleted) {
         return service.getCarById(id, includeDeleted);
     }
 
@@ -46,7 +47,8 @@ public class CarController {
 
     @GetMapping
     @Operation(summary = "List all user's cars")
-    public List<CarDto> listCars(@RequestParam("include_deleted") boolean includeDeleted) {
+    public List<CarDto> listCars(@RequestParam(value = "include_deleted",
+            required = false, defaultValue = "false") boolean includeDeleted) {
         return service.listCars(includeDeleted);
     }
 }
