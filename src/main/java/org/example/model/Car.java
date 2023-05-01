@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -15,23 +15,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarDto implements HasDeleted {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+public class Car implements HasDeleted {
     private Long id;
-    @NotEmpty
     private String brand;
-    @NotEmpty
     private String model;
-    @Pattern(regexp = "^\\d{4}$")
     private String year;
-    @NotEmpty
     private String plate;
-    @NotEmpty
     private String chassisNumber;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean deleted;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdAt;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime updatedAt;
 }

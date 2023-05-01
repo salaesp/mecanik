@@ -5,6 +5,7 @@ import org.example.dto.CarDto;
 import org.example.exception.ResourceNotFoundException;
 import org.example.mapper.CarMapper;
 import org.example.entity.CarEntity;
+import org.example.model.Car;
 import org.example.repository.CarRepository;
 import org.example.utils.ContextUtils;
 import org.springframework.stereotype.Service;
@@ -20,35 +21,35 @@ public class CarService {
     private final CarRepository repository;
     private final CarMapper mapper;
 
-    public CarDto createCar(CarDto car) {
+    public Car createCar(Car car) {
         CarEntity carEntity = mapper.toEntity(car);
         carEntity.setUserId(ContextUtils.getUserId());
         CarEntity save = internalSave(carEntity);
-        return mapper.toDto(save);
+        return mapper.toModel(save);
     }
 
 
-    public CarDto getCarById(Long id) {
+    public Car getCarById(Long id) {
         return this.getCarById(id, false);
     }
 
-    public CarDto getCarById(Long id, boolean includeDeleted) {
-        return mapper.toDto(internalGet(id, includeDeleted));
+    public Car getCarById(Long id, boolean includeDeleted) {
+        return mapper.toModel(internalGet(id, includeDeleted));
     }
 
-    public List<CarDto> listCars(boolean includeDeleted) {
+    public List<Car> listCars(boolean includeDeleted) {
         List<CarEntity> byUserId = includeDeleted ?
                 repository.findByUserId(ContextUtils.getUserId()) :
                 repository.findByUserIdAndDeletedFalse(ContextUtils.getUserId());
         return byUserId
-                .stream().map(mapper::toDto)
+                .stream().map(mapper::toModel)
                 .collect(Collectors.toList());
     }
 
-    public CarDto deleteCar(Long id) {
+    public Car deleteCar(Long id) {
         CarEntity carEntity = this.internalGet(id, false);
         carEntity.setDeleted(true);
-        return mapper.toDto(internalSave(carEntity));
+        return mapper.toModel(internalSave(carEntity));
     }
 
     private CarEntity internalSave(CarEntity carEntity) {

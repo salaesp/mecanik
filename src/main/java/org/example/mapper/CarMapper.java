@@ -2,6 +2,7 @@ package org.example.mapper;
 
 import org.example.dto.CarDto;
 import org.example.entity.CarEntity;
+import org.example.model.Car;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -10,8 +11,12 @@ import org.mapstruct.Mappings;
 public interface CarMapper {
 
     @Mappings({@Mapping(source = "creationYear", target = "year")})
-    CarDto toDto(CarEntity carEntity);
+    Car toModel(CarEntity carEntity);
 
     @Mappings({@Mapping(source = "year", target = "creationYear")})
-    CarEntity toEntity(CarDto carDto);
+    CarEntity toEntity(Car Car);
+
+    CarDto toDto(Car Car);
+
+    Car toModel(CarDto carDto);
 }

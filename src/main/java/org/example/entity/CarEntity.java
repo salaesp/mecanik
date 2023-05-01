@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Data
 public class CarEntity implements HasDeleted {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "car_gen")
     private Long id;
     private String brand;
     private String model;
@@ -36,9 +36,9 @@ public class CarEntity implements HasDeleted {
     private Long userId;
     private boolean deleted;
     @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created;
+    @Column(name = "create_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updated;
 }

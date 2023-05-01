@@ -4,6 +4,7 @@ import org.example.exception.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -63,8 +64,17 @@ public class HttpExceptionHandler {
                         .build());
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException exception) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorResponse.builder()
+                        .code(ErrorCode.CREDENTIALS_INVALID)
+                        .build());
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> userAlreadyExistsException(Exception exception) {
+    public ResponseEntity<ErrorResponse> genericHandler(Exception exception) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorResponse.builder()

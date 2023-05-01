@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.conditions.HasDeleted;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -21,10 +22,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReminderDto {
+public class ReminderDto implements HasDeleted {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
-    private LocalDateTime date;
+    private LocalDateTime dueDate;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime created;
+    private LocalDateTime createdAt;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean deleted;
 }
