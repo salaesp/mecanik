@@ -8,34 +8,26 @@ import lombok.NoArgsConstructor;
 import org.example.conditions.HasCreatedAt;
 import org.example.conditions.HasDeleted;
 import org.example.conditions.HasUpdatedAt;
+import org.example.model.Car;
+import org.example.model.User;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 import java.time.ZonedDateTime;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CarDto implements HasDeleted, HasCreatedAt, HasUpdatedAt {
+public class CarRelationshipDto implements HasCreatedAt, HasUpdatedAt, HasDeleted {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
-    @NotEmpty
-    private String brand;
-    @NotEmpty
-    private String model;
-    @Pattern(regexp = "^\\d{4}$")
-    private String year;
-    @NotEmpty
-    private String plate;
-    @NotEmpty
-    private String chassisNumber;
-    @NotEmpty
-    private String version;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean deleted;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ZonedDateTime createdAt;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private ZonedDateTime updatedAt;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private User user;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Car car;
 }

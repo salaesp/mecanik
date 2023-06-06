@@ -1,5 +1,6 @@
 package org.example.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.exception.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
 @ControllerAdvice
+@Slf4j
 public class HttpExceptionHandler {
 
     public static final String DETAIL_KEY_ID = "id";
@@ -75,6 +77,7 @@ public class HttpExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> genericHandler(Exception exception) {
+        log.warn("Could not identify exception. Consider adding a specific handler", exception);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorResponse.builder()

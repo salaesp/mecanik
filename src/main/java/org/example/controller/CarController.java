@@ -29,7 +29,7 @@ public class CarController {
     @PostMapping
     @Operation(summary = "Create a new car for the logged user")
     public CarDto createCar(@RequestBody @Validated CarDto car) {
-        return mapper.toDto(service.createCar(mapper.toModel(car)));
+        return mapper.toDto(service.createCarOnUser(mapper.toModel(car)));
     }
 
 

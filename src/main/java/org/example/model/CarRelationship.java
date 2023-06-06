@@ -7,22 +7,20 @@ import lombok.NoArgsConstructor;
 import org.example.conditions.HasCreatedAt;
 import org.example.conditions.HasDeleted;
 import org.example.conditions.HasUpdatedAt;
+import org.springframework.lang.Nullable;
 
 import java.time.ZonedDateTime;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Car implements HasDeleted, HasCreatedAt, HasUpdatedAt {
+public class CarRelationship implements HasDeleted, HasCreatedAt, HasUpdatedAt {
     private Long id;
-    private String brand;
-    private String model;
-    private String year;
-    private String plate;
-    private String chassisNumber;
-    private String version;
     private boolean deleted;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
+    @Nullable
+    private User user;
+    private Car car;
 }

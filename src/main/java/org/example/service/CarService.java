@@ -1,12 +1,12 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.CarDto;
+import org.example.entity.CarRelationshipEntity;
 import org.example.exception.ResourceNotFoundException;
 import org.example.mapper.CarMapper;
-import org.example.entity.CarEntity;
 import org.example.model.Car;
-import org.example.repository.CarRepository;
+import org.example.model.CarRelationship;
+import org.example.repository.CarRelationshipRepository;
 import org.example.utils.ContextUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CarService {
 
-    private final CarRepository repository;
+    private final CarRelationshipRepository relationshipRepository;
     private final CarMapper mapper;
+    private final UserService userService;
 
-    public Car createCar(Car car) {
-        CarEntity carEntity = mapper.toEntity(car);
-        carEntity.setUserId(ContextUtils.getUserId());
-        CarEntity save = internalSave(carEntity);
-        return mapper.toModel(save);
+    public Car createCarOnUser(Car car) {
+        CarRelationship relationship = CarRelationship.builder()
+                .user(userService.getUser())
+                .car(car)
+                .build();
+        CarRelationship save = internalSave(relationship);
+        return save.getCar();
     }
 
 
@@ -34,35 +37,35 @@ public class CarService {
     }
 
     public Car getCarById(Long id, boolean includeDeleted) {
-        return mapper.toModel(internalGet(id, includeDeleted));
+        return internalGet(id, includeDeleted).getCar();
     }
 
     public List<Car> listCars(boolean includeDeleted) {
-        List<CarEntity> byUserId = includeDeleted ?
-                repository.findByUserId(ContextUtils.getUserId()) :
-                repository.findByUserIdAndDeletedFalse(ContextUtils.getUserId());
+        List<CarRelationshipEntity> byUserId = includeDeleted ?
+                relationshipRepository.findByUserId(ContextUtils.getUserId()) :
+                relationshipRepository.findByUserIdAndDeletedFalse(ContextUtils.getUserId());
         return byUserId
-                .stream().map(mapper::toModel)
+                .stream()
+                .map(CarRelationshipEntity::getCar)
+                .map(mapper::toModel)
                 .collect(Collectors.toList());
     }
 
-    public Car deleteCar(Long id) {
-        CarEntity carEntity = this.internalGet(id, false);
-        carEntity.setDeleted(true);
-        return mapper.toModel(internalSave(carEntity));
+    public Car deleteCar(Long carId) {
+        CarRelationship relationship = this.internalGet(carId, false);
+        relationship.setDeleted(true);
+        relationship.getCar().setDeleted(true);
+        return internalSave(relationship).getCar();
     }
 
-    private CarEntity internalSave(CarEntity carEntity) {
-        return repository.save(carEntity);
+    private CarRelationship internalSave(CarRelationship relationship) {
+        return mapper.toModel(relationshipRepository.save(mapper.toEntity(relationship)));
     }
 
-    private CarEntity internalGet(Long id, boolean includeDeleted) {
-        Optional<CarEntity> byId = includeDeleted ?
-                repository.findByUserIdAndId(ContextUtils.getUserId(), id) :
-                repository.findByUserIdAndIdAndDeletedFalse(ContextUtils.getUserId(), id);
-        if (byId.isEmpty()) {
-            throw new ResourceNotFoundException(id);
-        }
-        return byId.get();
+    private CarRelationship internalGet(Long carId, boolean includeDeleted) {
+        Optional<CarRelationshipEntity> byId = includeDeleted ?
+                relationshipRepository.findByUserIdAndCarId(ContextUtils.getUserId(), carId) :
+                relationshipRepository.findByUserIdAndCarIdAndDeletedFalse(ContextUtils.getUserId(), carId);
+        return mapper.toModel(byId.orElseThrow(() -> new ResourceNotFoundException(carId)));
     }
 }

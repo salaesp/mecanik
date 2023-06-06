@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.conditions.HasCreatedAt;
 import org.example.conditions.HasDeleted;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,7 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @Entity
@@ -27,16 +28,16 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReminderEntity implements HasDeleted {
+public class ReminderEntity implements HasDeleted, HasCreatedAt {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "reminder_gen")
     private Long id;
     @Column(name = "car_id")
     private Long carId;
     @Column(name = "due_date")
-    private LocalDateTime dueDate;
+    private ZonedDateTime dueDate;
     private boolean deleted;
     @CreatedDate
     @Column(name = "create_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 }

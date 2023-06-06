@@ -13,11 +13,4 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface CarRepository extends JpaRepository<CarEntity, Long> {
 
-    Optional<CarEntity> findByUserIdAndId(Long userId, Long id);
-
-    Optional<CarEntity> findByUserIdAndIdAndDeletedFalse(Long userId, Long id);
-
-    List<CarEntity> findByUserIdAndDeletedFalse(Long userId);
-
-    List<CarEntity> findByUserId(Long userId);
 }

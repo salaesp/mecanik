@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.conditions.HasCreatedAt;
+import org.example.conditions.HasUpdatedAt;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,7 +26,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,7 +38,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppUserEntity implements UserDetails {
+public class AppUserEntity implements UserDetails, HasCreatedAt, HasUpdatedAt {
 
     @Id
     @GeneratedValue(
@@ -59,10 +61,10 @@ public class AppUserEntity implements UserDetails {
     private Boolean enabled;
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime created;
+    private ZonedDateTime createdAt;
     @LastModifiedDate
     @Column(nullable = false)
-    private LocalDateTime updated;
+    private ZonedDateTime updatedAt;
 
 
     @Override
