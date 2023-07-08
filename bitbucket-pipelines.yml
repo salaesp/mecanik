@@ -2,6 +2,9 @@ pipelines:
   default:
     - step:
         name: Sync GitHub Mirror
+        image: alpine/git:latest
+        clone:
+          enabled: false
         script:
           - git clone --mirror git@github.com:salaesp/mecanik.git ./mirrored
           - cd ./mirrored;
