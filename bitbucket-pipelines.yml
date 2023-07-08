@@ -6,7 +6,6 @@ pipelines:
         clone:
           enabled: false
         script:
-          - git clone --mirror git@github.com:salaesp/mecanik.git ./mirrored
-          - cd ./mirrored;
-          - git fetch -p --tags origin;
+          - git clone --bare git@bitbucket.org:autitossrl/autitos-back.git autitos.git
+          - cd autitos.git
           - git push --mirror git@github.com:salaesp/mecanik.git
