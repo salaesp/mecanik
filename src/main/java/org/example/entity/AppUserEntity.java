@@ -53,6 +53,7 @@ public class AppUserEntity implements UserDetails, HasCreatedAt, HasUpdatedAt {
     private Long id;
     private String email;
     private String cleanEmail;
+    private String name;
     private String password;
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)

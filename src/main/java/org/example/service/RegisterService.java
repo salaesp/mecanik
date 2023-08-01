@@ -26,11 +26,11 @@ public class RegisterService {
     private final JWTUtil jwtUtil;
 
 
-    public Map<String, String> createUser(String email, String password) {
+    public Map<String, String> createUser(String email, String password, String name) {
         Optional<AppUserEntity> byEmail = repository.findByCleanEmail(EmailUtils.cleanEmail(email));
         if (byEmail.isEmpty()) {
             String encodedPassword = passwordEncoder.encode(password);
-            AppUserEntity user = repository.save(buildUserForAuthentication(email, encodedPassword, Set.of(AppUserRole.CAR_OWNER)));
+            AppUserEntity user = repository.save(buildUserForAuthentication(email, encodedPassword, name, Set.of(AppUserRole.CAR_OWNER)));
             log.info("Creating user with email {}", email);
             return Collections.singletonMap("jwt-token", jwtUtil.generateToken(user.getEmail()));
         } else {
@@ -39,12 +39,13 @@ public class RegisterService {
         }
     }
 
-    private AppUserEntity buildUserForAuthentication(String email, String password, Set<AppUserRole> roles) {
+    private AppUserEntity buildUserForAuthentication(String email, String password, String name, Set<AppUserRole> roles) {
         return AppUserEntity.builder()
                 .cleanEmail(EmailUtils.cleanEmail(email))
                 .email(email)
                 .password(password)
                 .enabled(true)
+                .name(name)
                 .locked(false)
                 .appUserRoles(roles)
                 .build();

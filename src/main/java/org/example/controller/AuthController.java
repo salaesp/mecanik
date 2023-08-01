@@ -28,7 +28,7 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, String> createUser(@RequestBody @Validated CreateUserRequest req) {
-        return registerService.createUser(req.getEmail(), req.getPassword());
+        return registerService.createUser(req.getEmail(), req.getPassword(), req.getName());
     }
 
 
